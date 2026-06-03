@@ -1,0 +1,35 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "nodemon": "^3.1.14",
+    "prisma": "^6.0.0"
+  },
+  "name": "projetohospital_luizg",
+  "version": "1.0.0",
+  "description": "Projeto backend desenvolvido com Node.js,\r prisma ORM e MySQL/ mariaDB",
+  "main": "index.js",
+  "repository": {
+    "type": "module",
+    "url": "git+https://github.com/Luiz51-code/ProjetoHospital_LuizG.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Luiz51-code/ProjetoHospital_LuizG/issues"
+  },
+  "homepage": "https://github.com/Luiz51-code/ProjetoHospital_LuizG#readme"
+}

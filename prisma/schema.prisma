@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model consulta {
+  id           Int      @id @default(autoincrement())
+  dataConsulta DateTime
+  Obsevacao    String?
+  Status       String   @default("Agendada")
+  Valor        Decimal  @db.Decimal(10, 2)
+  CriadoEm     DateTime @default(now())
+  PacienteID   Int
+  MedicoID     Int
+  UsuarioID    Int
+  medico       medico   @relation(fields: [MedicoID], references: [id], map: "Consulta_MedicoID_fkey")
+  paciente     paciente @relation(fields: [PacienteID], references: [id], map: "Consulta_PacienteID_fkey")
+  usuario      usuario  @relation(fields: [UsuarioID], references: [id], map: "Consulta_UsuarioID_fkey")
+
+  @@index([MedicoID], map: "Consulta_MedicoID_fkey")
+  @@index([PacienteID], map: "Consulta_PacienteID_fkey")
+  @@index([UsuarioID], map: "Consulta_UsuarioID_fkey")
+}
+
+model especialidade {
+  id        Int      @id @default(autoincrement())
+  nome      String   @unique(map: "Especialidade_nome_key")
+  Descricao String
+  CriadoEm  DateTime @default(now())
+  medico    medico[]
+}
+
+model medico {
+  id              Int           @id @default(autoincrement())
+  nome            String
+  crm             String        @unique(map: "Medico_crm_key")
+  telefone        String?
+  email           String?
+  valorConsulta   Decimal       @db.Decimal(10, 2)
+  CriadoEm        DateTime      @default(now())
+  especialidadeID Int
+  consulta        consulta[]
+  especialidade   especialidade @relation(fields: [especialidadeID], references: [id], map: "Medico_especialidadeID_fkey")
+
+  @@index([especialidadeID], map: "Medico_especialidadeID_fkey")
+}
+
+model paciente {
+  id             Int        @id @default(autoincrement())
+  nome           String
+  cpf            String     @unique(map: "Paciente_cpf_key")
+  dataNascimento DateTime
+  telefone       String?
+  email          String?
+  endereco       String?
+  criadoEm       DateTime   @default(now())
+  consulta       consulta[]
+}
+
+model usuario {
+  id       Int        @id @default(autoincrement())
+  nome     String
+  email    String     @unique(map: "Usuario_email_key")
+  senha    String
+  perfil   String     @default("Recepcionista")
+  criadoEm DateTime   @default(now())
+  consulta consulta[]
+}
